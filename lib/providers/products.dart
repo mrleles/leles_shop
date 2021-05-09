@@ -9,7 +9,7 @@ class Products with ChangeNotifier {
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
-          'https://n4.sdlcdn.com/imgs/a/p/f/Champion-Gray-Casual-Shoes-SDL501519318-3-c581b.JPG',
+          'https://n4.sdlcdn.com/imgs/a/p/f/Champion-Gray-Casual-Shoes-SDL501519318-3-c581b.jpg',
     ),
     Product(
       id: 'p2',
@@ -50,8 +50,14 @@ class Products with ChangeNotifier {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
 
-  void addProduct() {
-    //_items.add();
+  void addProduct(Product product) {
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        imageUrl: product.imageUrl,
+        price: product.price);
+    _items.add(newProduct);
     notifyListeners();
   }
 
@@ -59,13 +65,18 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-//   void showFavoritesOnly() {
-//     _showFavoritesOnly = true;
-//     notifyListeners();
-//   }
+  void updateProduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } else {
+      print('...');
+    }
+  }
 
-//   void showAll() {
-//     _showFavoritesOnly = false;
-//     notifyListeners();
-//   }
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }
