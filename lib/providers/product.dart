@@ -27,7 +27,7 @@ class Product with ChangeNotifier {
     isFavorite = !isFavorite;
     notifyListeners();
     final url =
-        Uri.parse('https://leles-7bcf1.firebaseio.com/products/$id.json');
+        Uri.parse('FIREBASE-PROJECT-URL/products/$id.json');
     try {
       final response = await http.patch(url,
           body: json.encode({
