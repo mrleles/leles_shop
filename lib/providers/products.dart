@@ -55,7 +55,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fechAndSetProducts() async {
-    final url = Uri.parse('https://leles-7bcf1.firebaseio.com/products.json');
+    final url = Uri.parse('FIREBASE-PROJECT-URL/products.json');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -79,7 +79,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.parse('https://leles-7bcf1.firebaseio.com/products.json');
+    final url = Uri.parse('FIREBASE-PROJECT-URL/products.json');
     try {
       final response = await http.post(
         url,
@@ -115,7 +115,7 @@ class Products with ChangeNotifier {
 
     if (prodIndex >= 0) {
       final url =
-          Uri.parse('https://leles-7bcf1.firebaseio.com/products/$id.json');
+          Uri.parse('FIREBASE-PROJECT-URL/products/$id.json');
       await http.patch(
         url,
         body: json.encode({
@@ -134,7 +134,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url =
-        Uri.parse('https://leles-7bcf1.firebaseio.com/products/$id.json');
+        Uri.parse('FIREBASE-PROJECT-URL/products/$id.json');
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     var existingProduct = _items[existingProductIndex];
