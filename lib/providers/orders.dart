@@ -55,7 +55,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrders() async {
-    final url = Uri.parse('https://leles-7bcf1.firebaseio.com/orders.json');
+    final url = Uri.parse('FIREBASE-PROJECT-URL/orders.json');
     try {
       final response = await http.get(url);
       final List<OrderItem> loadedOrders = [];
