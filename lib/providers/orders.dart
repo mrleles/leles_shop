@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:leles_shop/providers/cart.dart';
 import 'package:http/http.dart' as http;
-import 'package:leles_shop/providers/product.dart';
+//import 'package:leles_shop/providers/product.dart';
 
 class OrderItem {
   final String id;
@@ -21,6 +21,10 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final String authToken;
+  final String userId;
+
+  Orders(this.authToken, this._orders, this.userId);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -28,10 +32,15 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final timestamp = DateTime.now();
+<<<<<<< HEAD
+    final url = Uri.parse(
+        'https://CHANGE.firebaseio.com/orders/$userId.json?auth=$authToken');
+=======
     final url = Uri.parse('FIREBASE-PROJECT-URL/orders.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
     final response = await http.post(url,
         body: json.encode({
-          'amount': total,
+          'amount': total.toStringAsFixed(2),
           'dateTime': timestamp.toIso8601String(),
           'products': cartProducts
               .map((e) => {
@@ -55,7 +64,12 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrders() async {
+<<<<<<< HEAD
+    final url = Uri.parse(
+        'https://CHANGE.firebaseio.com/orders/$userId.json?auth=$authToken');
+=======
     final url = Uri.parse('FIREBASE-PROJECT-URL/orders.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
     try {
       final response = await http.get(url);
       final List<OrderItem> loadedOrders = [];

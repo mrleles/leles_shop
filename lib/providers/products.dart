@@ -40,6 +40,10 @@ class Products with ChangeNotifier {
     //       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     // ),
   ];
+  final String authToken;
+  final String userId;
+
+  Products(this.authToken, this._items, this.userId);
 
   var _showFavoritesOnly = false;
 
@@ -54,14 +58,26 @@ class Products with ChangeNotifier {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
 
+<<<<<<< HEAD
+  Future<void> fechAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url = Uri.parse(
+        'https://CHANGE.firebaseio.com/products.json?auth=$authToken&$filterString');
+=======
   Future<void> fechAndSetProducts() async {
     final url = Uri.parse('FIREBASE-PROJECT-URL/products.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         return;
       }
+      url = Uri.parse(
+          'https://CHANGE.firebaseio.com/userFavorites/$userId.json?auth=$authToken');
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
@@ -69,6 +85,8 @@ class Products with ChangeNotifier {
             title: prodData['title'],
             description: prodData['description'],
             imageUrl: prodData['imageUrl'],
+            isFavorite:
+                favoriteData == null ? false : favoriteData[prodId] ?? false,
             price: prodData['price']));
       });
       _items = loadedProducts;
@@ -79,7 +97,12 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
+<<<<<<< HEAD
+    final url = Uri.parse(
+        'https://CHANGE.firebaseio.com/products.json?auth=$authToken');
+=======
     final url = Uri.parse('FIREBASE-PROJECT-URL/products.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
     try {
       final response = await http.post(
         url,
@@ -89,7 +112,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite,
+            'creatorId': userId,
           },
         ),
       );
@@ -114,8 +137,13 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
 
     if (prodIndex >= 0) {
+<<<<<<< HEAD
+      final url = Uri.parse(
+          'https://CHANGE.firebaseio.com/products/$id.json?auth=$authToken');
+=======
       final url =
           Uri.parse('FIREBASE-PROJECT-URL/products/$id.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
       await http.patch(
         url,
         body: json.encode({
@@ -133,8 +161,13 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
+<<<<<<< HEAD
+    final url = Uri.parse(
+        'https://CHANGE.firebaseio.com/products/$id.json?auth=$authToken');
+=======
     final url =
         Uri.parse('FIREBASE-PROJECT-URL/products/$id.json');
+>>>>>>> 8a36f6a4093c4fd35405982ae0dcadca490c1c72
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     var existingProduct = _items[existingProductIndex];
